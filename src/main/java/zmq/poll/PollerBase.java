@@ -174,6 +174,15 @@ abstract class PollerBase implements Runnable
             //  Trigger the timer.
             timerInfo.sink.timerEvent(timerInfo.id);
         }
+        
+        //  Remove empty list object
+        for (Entry<TimerInfo, Long> entry : timers.entries()) {
+            final Long key = entry.getValue();
+
+            if (timers.getValues(key).isEmpty()) {
+                timers.remove(key);
+            }
+        }
 
         if (changed) {
             return executeTimers();
